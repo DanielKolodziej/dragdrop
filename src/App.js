@@ -59,6 +59,8 @@ const App = () => {
       activated: false
     },
   ];
+  let svgList = document.querySelectorAll("svg[id^=svg]")
+  
   const [data, setData] = useState(dataInit)
   const handleDragStart = (e) => {
     e.persist()
@@ -119,9 +121,6 @@ const App = () => {
     // }
   }
   const handleClick = (e) => {
-      // let temp = [...data];
-      // temp[e.target.id].activated = false
-      // setData(temp)
       let tempData = [...data]
       let tempPair = [...pair]
       let remove= [];
@@ -129,41 +128,64 @@ const App = () => {
         if(tempPair[i].indexOf(e.target.id) !== -1){
           console.log(`removing index ${i} from arr which contains ${e.target.id}`)
           remove = tempPair.splice(i, 1)
-          // setPair(temp)
         }
       }
       setPair(tempPair)
       console.log('indexs to remove from pair and turn false: ',remove)
-      // remove[0].forEach(item =>console.log(item))
       remove[0].forEach(item => tempData[item].activated = false)
+      remove[0].forEach(item => svgList[item].classList = 'makeStyles-noSVG-4')
       setData(tempData)
   }
-  // let svgList = document.querySelectorAll("svg[id^=svg]")
+
   useEffect(() => {
     console.log('pair',pair)
-    let svgList = document.querySelectorAll("svg[id^=svg]")
-    for (let i = 0; i < pair.length; i++){
-      for (let j = 0; j < svgList.length; j++){
+    console.log('svglist',svgList)
+    
+    for (let i = 0; i < svgList.length; i++){
+      for (let j = 0; j < pair.length; j++){
         // console.log(svgList[j].id.substring(svgList[j].id.length - 1))
-        if(pair[i][0] === svgList[j].id.substring(svgList[j].id.length - 1)){
+        if(pair[j][0] === svgList[i].id.substring(svgList[i].id.length - 1)){
           console.log('match, turning display on')
           // console.log(svgList[j].classList);
-          svgList[j].classList = 'makeStyles-showSVG-3'
-          // console.log(svgList[j].classList);
-          // makeStyles-showSVG-3
-          // svgList[j].className += 'classes.showSVG';
-
-        } else {
-          console.log('turning display off')
-          // console.log(svgList[j].classList);
-          svgList[j].classList = 'makeStyles-noSVG-4'
-          // console.log(svgList[j].classList);
-          // makeStyles-noSVG-4
-          // svgList[j].className -= 'classes.showSVG';
+          svgList[i].classList = 'makeStyles-showSVG-3'
+        // } else {
+        //   console.log('turning display off')
+        //   // console.log(svgList[j].classList);
+        //   svgList[i].classList = 'makeStyles-noSVG-4'
         }
       }
     }
-  }, [pair])
+    //--------------------------
+    // if (pair.length !== 0){
+    //   for (let j = 0; j < svgList.length; j++){
+    //     // console.log(svgList[j].id.substring(svgList[j].id.length - 1))
+    //     if(pair[j][0] === svgList[j].id.substring(svgList[j].id.length - 1)){
+    //       console.log('match, turning display on')
+    //       // console.log(svgList[j].classList);
+    //       svgList[j].classList = 'makeStyles-showSVG-3'
+    //     } else {
+    //       console.log('turning display off')
+    //       // console.log(svgList[j].classList);
+    //       svgList[j].classList = 'makeStyles-noSVG-4'
+    //     }
+    //   }
+    // }
+    //--------------------------
+    // for (let i = 0; i < pair.length; i++){
+    //   for (let j = 0; j < svgList.length; j++){
+    //     // console.log(svgList[j].id.substring(svgList[j].id.length - 1))
+    //     if(pair[i][0] === svgList[j].id.substring(svgList[j].id.length - 1)){
+    //       console.log('match, turning display on')
+    //       // console.log(svgList[j].classList);
+    //       svgList[j].classList = 'makeStyles-showSVG-3'
+    //     } else {
+    //       console.log('turning display off')
+    //       // console.log(svgList[j].classList);
+    //       svgList[j].classList = 'makeStyles-noSVG-4'
+    //     }
+    //   }
+    // }
+  }, [pair, svgList])
   return (
     <div>
       {data.map((_itm, index) => (
