@@ -22,8 +22,6 @@ const useStyles = makeStyles({
     display: 'block',
   },
   noSVG:{
-    // position: 'absolute', 
-    // right: 60,
     display: 'none',
   }
 
@@ -64,61 +62,19 @@ const App = () => {
   const [data, setData] = useState(dataInit)
   const handleDragStart = (e) => {
     e.persist()
-    // if (pair.length >= 2){
-    //   setPair([])
-    // }
-    // if (pair.indexOf(e.target.id) === -1){
-    //   console.log('setting val')
-    //   setPair([...pair, e.target.id])
-    // }
-    // console.log(e.target.id)
-
-    // setPair([...pair, e.target.id])
-    // if (data[e.target.id].activated === false){
     setFirst(e.target.id)
-    // }
-    // for( let i = 0; i < pair.length; i++){
-      // if (pair[i].indexOf(e.target.id) === -1){
-      //   console.log('setting val')
-      //   setPair([[...pair, e.target.id]])
-      // }
-      // setPair([[...pair, e.target.id]])
-    // }
+
   }
 
   const handleDrop = (e) => {
-    // if (pair.indexOf(e.target.id) === -1){
-    //   console.log('setting val')
-    //   setPair([...pair, e.target.id])
-    //   let temp = [...data];
-    //   temp[pair[0]].activated = true
-    //   temp[e.target.id].activated = true
-    //   setData(temp)
-    // }
-    // console.log(first)
-    // console.log(e.target.id)
-    if (e.target.id !== first){
+      if (Math.abs(e.target.id - first) === 1){
       let inputPair = [first, e.target.id].sort()
       setPair([...pair, inputPair])
-      // console.log(data[inputPair[0]].activated)
-      // console.log(data[inputPair[1]].activated)
       let temp = [...data]
       temp[inputPair[0]].activated = true;
       temp[inputPair[1]].activated = true;
-      // console.log(temp)
       setData(temp)
     }
-    
-    // for (let i= 0; i < pair.length; i++){
-    //   if (pair[i].indexOf(e.target.id) === -1){
-    //     console.log('setting val')
-    //     setPair([...pair, e.target.id])
-    //     let temp = [...data];
-    //     temp[pair[0]].activated = true
-    //     temp[e.target.id].activated = true
-    //     setData(temp)
-    //   }
-    // }
   }
   const handleClick = (e) => {
       let tempData = [...data]
@@ -143,48 +99,13 @@ const App = () => {
     
     for (let i = 0; i < svgList.length; i++){
       for (let j = 0; j < pair.length; j++){
-        // console.log(svgList[j].id.substring(svgList[j].id.length - 1))
         if(pair[j][0] === svgList[i].id.substring(svgList[i].id.length - 1)){
           console.log('match, turning display on')
           // console.log(svgList[j].classList);
           svgList[i].classList = 'makeStyles-showSVG-3'
-        // } else {
-        //   console.log('turning display off')
-        //   // console.log(svgList[j].classList);
-        //   svgList[i].classList = 'makeStyles-noSVG-4'
         }
       }
     }
-    //--------------------------
-    // if (pair.length !== 0){
-    //   for (let j = 0; j < svgList.length; j++){
-    //     // console.log(svgList[j].id.substring(svgList[j].id.length - 1))
-    //     if(pair[j][0] === svgList[j].id.substring(svgList[j].id.length - 1)){
-    //       console.log('match, turning display on')
-    //       // console.log(svgList[j].classList);
-    //       svgList[j].classList = 'makeStyles-showSVG-3'
-    //     } else {
-    //       console.log('turning display off')
-    //       // console.log(svgList[j].classList);
-    //       svgList[j].classList = 'makeStyles-noSVG-4'
-    //     }
-    //   }
-    // }
-    //--------------------------
-    // for (let i = 0; i < pair.length; i++){
-    //   for (let j = 0; j < svgList.length; j++){
-    //     // console.log(svgList[j].id.substring(svgList[j].id.length - 1))
-    //     if(pair[i][0] === svgList[j].id.substring(svgList[j].id.length - 1)){
-    //       console.log('match, turning display on')
-    //       // console.log(svgList[j].classList);
-    //       svgList[j].classList = 'makeStyles-showSVG-3'
-    //     } else {
-    //       console.log('turning display off')
-    //       // console.log(svgList[j].classList);
-    //       svgList[j].classList = 'makeStyles-noSVG-4'
-    //     }
-    //   }
-    // }
   }, [pair, svgList])
   return (
     <div>
@@ -199,8 +120,6 @@ const App = () => {
         <div 
           name='drag'
           draggable={!_itm.activated}
-          // {_itm.activated ? draggable : null}
-          // onDrag= {handleDrag}
           onDragStart= {handleDragStart}
           onDragOver= {(e) => e.preventDefault()}
           onDrop= {handleDrop}
@@ -210,8 +129,6 @@ const App = () => {
           key={index+'bool'}>
           {_itm.activated.toString()}
         </div>
-        {/* key={index+'svg'} */}
-        {/* className={classes.showSVG} */}
         <svg className={classes.noSVG} id={'svg'+index} width="30" height="70"><line style={{strokeWidth:30}} x1="1" y1="1" x2="1" y2="70" stroke="blue"/></svg>
         </div>
       ))}
